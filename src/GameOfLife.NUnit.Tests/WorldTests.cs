@@ -5,6 +5,7 @@ namespace GameOfLife.NUnit.Tests
     [TestFixture]
     public class WorldTests
     {
+        /*
         [Test]
         public void World_ConstructNew_WidthCorrect()
         {
@@ -15,6 +16,7 @@ namespace GameOfLife.NUnit.Tests
 
             Assert.AreEqual(expectedWidth, world.Width);
         }
+        */
 
         [Test]
         public void World_ConstructNew_HeightCorrect()
