@@ -17,6 +17,20 @@ build:
   verbosity: minimal
 test_script:
 - ps: >-
-    .\src\packages\OpenCover.4.5.3522\OpenCover.Console.exe -register:user -target:xunit.console.clr4.exe "-targetargs:""src\GameOfLife.xUnit.Tests\bin\$env:CONFIGURATION\GameOfLife.xUnit.Tests.dll"" /noshadow /appveyor" -filter:"+[GameOfLife*]*" -output:opencoverCoverage.xml
+    vstest.console.exe /inIsolation /Enablecodecoverage /TestAdapterPath:".\src\packages\xunit.runner.visualstudio.2.0.0-rc1-build1030\build\_common\" .\src\GameOfLife.xUnit.Tests\bin\Release\GameOfLife.xUnit.Tests.dll /Settings:CodeCoverage.runsettings
 
-    .\src\packages\coveralls.net.0.5.0\csmacnz.Coveralls.exe --opencover -i opencoverCoverage.xml --repoToken $env:COVERALLS_REPO_TOKEN --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_JOB_ID
+    $coverageFilePath = Resolve-Path -path "TestResults\*\*.coverage"
+    
+    $coverageFilePath = $coverageFilePath.ToString()
+    
+    if(Test-Path .\coverage.coveragexml){ rm .\coverage.coveragexml }
+
+    ."VSCodeCoverageToXml.exe" -i "$coverageFilePath" -o coverage.xml 
+
+    Push-AppveyorArtifact coverage.xml
+
+    $coveralls = (Resolve-Path "src/packages/coveralls.net.*/csmacnz.coveralls.exe").ToString()
+
+    & $coveralls --vscodecoverage -i coverage.coveragexml --repoToken $env:COVERALLS_REPO_TOKEN --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_JOB_ID --useRelativePaths -o cov.json
+
+    Push-AppveyorArtifact cov.json
