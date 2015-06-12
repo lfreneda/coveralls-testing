@@ -9,7 +9,7 @@ namespace GameOfLife.xUnit.Tests
         public void World_ConstructNew_WidthCorrect()
         {
             const int expectedWidth = 5;
-            var data = new bool[expectedWidth, 13] ;
+            var data = new bool[expectedWidth, 12] ;
 
             var world = new World(data);
 
