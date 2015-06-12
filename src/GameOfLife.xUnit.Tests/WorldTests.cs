@@ -15,15 +15,15 @@ namespace GameOfLife.xUnit.Tests
             Assert.Equal(expectedWidth, world.Width);
         }
 
-        [Fact]
-        public void World_ConstructNew_HeightCorrect()
-        {
-            const int expectedHeight = 5;
-            var data = new bool[12, expectedHeight];
+        //[Fact]
+        //public void World_ConstructNew_HeightCorrect()
+        //{
+        //    const int expectedHeight = 5;
+        //    var data = new bool[12, expectedHeight];
 
-            var world = new World(data);
+        //    var world = new World(data);
 
-            Assert.Equal(expectedHeight, world.Height);
-        }
+        //    Assert.Equal(expectedHeight, world.Height);
+        //}
     }
 }
