@@ -4,6 +4,7 @@ namespace GameOfLife.xUnit.Tests
 {
     public class WorldTests
     {
+        /*
         [Fact]
         public void World_ConstructNew_WidthCorrect()
         {
@@ -14,6 +15,7 @@ namespace GameOfLife.xUnit.Tests
 
             Assert.Equal(expectedWidth, world.Width);
         }
+        */
 
         [Fact]
         public void World_ConstructNew_HeightCorrect()
